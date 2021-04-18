@@ -1,0 +1,20 @@
+version: '2'
+services:
+  db:
+    image: postgres:9
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=db
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+#  app:
+#    build: .
+#    container_name: telegram-app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - flyway
