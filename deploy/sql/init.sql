@@ -1,11 +1,12 @@
-CREATE TABLE files{
-    id SERIAL PRIMARY KEY,
+CREATE TABLE public.files
+(
+    id        SERIAL PRIMARY KEY,
     record_id INT,
     parent_id INT,
-    name TEXT
-};
+    name      TEXT
+);
 
-INSERT INTO files (table_id, parent_id, name) VALUES
+INSERT INTO public.files (record_id, parent_id, name) VALUES
 (1, null, 'Документы'),
 (2, null, 'Загрузки'),
 (3, null, 'Рабочий стол'),
