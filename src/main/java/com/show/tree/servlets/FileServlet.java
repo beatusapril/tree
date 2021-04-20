@@ -1,8 +1,8 @@
-package com.show.tree.endpoint;
+package com.show.tree.servlets;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.show.tree.domain.File;
 import com.show.tree.service.DataService;
+import com.show.tree.util.JsonUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,11 +23,11 @@ public class FileServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         List<File> files = dataService.getAllFiles();
-      /*  ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(output);*/
-        out.print(files);
+        String json = JsonUtil.toString(files);
+        out.print(json);
         out.flush();
     }
 

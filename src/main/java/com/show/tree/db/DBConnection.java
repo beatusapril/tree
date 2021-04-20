@@ -10,14 +10,13 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private final String propertyFile = "resources/application.properties";
-    private Connection connection;
-
+    private static final String propertyFile = "/application.properties";
+    private static Connection connection;
 
     private DBConnection() {
     }
 
-    public Connection getConnection()  {
+    public static Connection getConnection() {
         if (connection != null) {
             return connection;
         }
@@ -26,21 +25,17 @@ public class DBConnection {
             String user = prop.getProperty("user");
             String password = prop.getProperty("password");
             String url = prop.getProperty("url");
-            Class.forName("com.postgresql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
-        } catch (IOException e ){
-
-        } catch (SQLException e ){
-
-        } catch (ClassNotFoundException e ){
-
+        } catch (IOException | SQLException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
         }
         return connection;
     }
 
-    private Properties extracted() throws IOException {
+    private static Properties extracted() throws IOException {
         Properties prop = new Properties();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
+        InputStream inputStream = DBConnection.class.getResourceAsStream(propertyFile);
         if (inputStream != null) {
             prop.load(inputStream);
         } else {

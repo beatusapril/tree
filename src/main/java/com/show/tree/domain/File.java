@@ -2,12 +2,23 @@ package com.show.tree.domain;
 
 public class File {
     private Integer id;
-    private Integer recordId;
     private Integer parentId;
     private String name;
 
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setParentId(Integer parentId) {
