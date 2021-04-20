@@ -1,5 +1,6 @@
 package com.show.tree.endpoint;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.show.tree.domain.File;
 import com.show.tree.service.DataService;
 
@@ -24,6 +25,8 @@ public class FileServlet extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         List<File> files = dataService.getAllFiles();
+      /*  ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(output);*/
         out.print(files);
         out.flush();
     }
