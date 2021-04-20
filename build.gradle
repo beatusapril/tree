@@ -25,6 +25,20 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
 
+war {
+    archiveFileName = 'tree.war'
+}
+
 test {
     useJUnitPlatform()
+}
+
+task deploy (dependsOn: build){
+    doLast{
+        copy {
+            from "build/libs/"
+            into "/opt/tomcat/webapps/"
+            include "*.war"
+        }
+    }
 }
