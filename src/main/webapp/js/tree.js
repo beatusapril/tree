@@ -1,12 +1,22 @@
+let url = window.location.href + '/files';
+
+fetch(url).then(function (response) {
+    response.json().then(function (files) {
+        let tree = files.toTree(file => file.id, file => file.parentId);
+        document.body.appendChild(createTreeView(tree, file => file.name)).id = "myUL";
+        addNestedMechanism();
+    });
+});
+
 Object.defineProperty(Array.prototype, "toTree", {
     configurable: false,
     writable: false,
-    value: function(getKey, getParentKey) {
+    value: function (getKey, getParentKey) {
         var list = JSON.parse(JSON.stringify(this));
         var root = {};
         for (var index = 0; index < list.length; index++) {
             var parentKey = getParentKey.call(list, list[index], index, list);
-            var parent = (list.find(function(item, index) {
+            var parent = (list.find(function (item, index) {
                 return parentKey === getKey.call(list, item, index, list);
             }) || root);
             (parent.children = parent.children || []).push(list[index]);
@@ -15,32 +25,12 @@ Object.defineProperty(Array.prototype, "toTree", {
     }
 });
 
-const locations = [{
-    id: 1,
-    name: "San Francisco Bay Area",
-    parentId: null
-}, {
-    id: 2,
-    name: "San Jose",
-    parentId: 3
-}, {
-    id: 3,
-    name: "South Bay",
-    parentId: 1
-}, {
-    id: 4,
-    name: "San Francisco",
-    parentId: 1
-}, {
-    id: 5,
-    name: "Manhattan",
-    parentId: 6
-}, ];
-
 function createTreeView(tree, getName) {
-    var listDom = document.createElement("ul");
-    tree.forEach(function(item) {
-        var itemDom = listDom.appendChild(document.createElement("li"));
+    let listDom = document.createElement("ul");
+    listDom.className = "treeline";
+    console.log("start")
+    tree.forEach(function (item) {
+        let itemDom = listDom.appendChild(document.createElement("li"));
         if (item.children && item.children.length) {
             var itemName = itemDom.appendChild(document.createElement("span"));
             itemName.textContent = getName.call(item, item);
@@ -54,5 +44,14 @@ function createTreeView(tree, getName) {
     return listDom;
 }
 
-var tree = locations.toTree(location => location.id, location => location.parentId);
-document.body.appendChild(createTreeView(tree, location => location.name)).id = "myUL";
+function addNestedMechanism(){
+    let toggler = document.getElementsByClassName("caret");
+    let i;
+
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+    }
+}

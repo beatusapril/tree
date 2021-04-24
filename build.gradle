@@ -31,12 +31,17 @@ dependencies {
 //    archiveFileName = 'tree.war'
 //}
 
+task delete {
+    delete "build/"
+}
+
 test {
     useJUnitPlatform()
 }
 
 task deploy(dependsOn: build) {
     doLast {
+        delete "/opt/tomcat/webapps/tree-1.0-SNAPSHOT.war"
         copy {
             from "build/libs/"
             into "/opt/tomcat/webapps/"
