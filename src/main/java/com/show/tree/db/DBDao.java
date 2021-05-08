@@ -60,12 +60,15 @@ public class DBDao {
 
     }
 
-    public void delete(Integer parentId, String name) throws SQLException {
-        String sql = "DELETE FROM files WHERE parent_id = ? AND name = ? ";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, parentId);
-        statement.setString(2, name);
-        statement.executeQuery(sql);
+    public void delete(Integer recordId) {
+        try {
+            String sql = "DELETE FROM files WHERE record_id = ? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, recordId);
+            statement.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private List<File> mapFiles(ResultSet resultSet) throws SQLException {

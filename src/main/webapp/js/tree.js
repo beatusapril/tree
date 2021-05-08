@@ -54,3 +54,13 @@ function addNestedMechanism() {
         });
     }
 }
+
+function addFile() {
+    let name = prompt('Введите название файла', "");
+    let parId = prompt("Введите номер предыдущего элемента", '');
+    let recId = prompt("Введите номер записи ( уникальный )", '');
+}
+
+function deleteFile() {
+    let name = prompt('Введите номер удаляемого файлы?', "");
+}
