@@ -3,7 +3,8 @@ let url = window.location.href + '/files';
 fetch(url).then(function (response) {
     response.json().then(function (files) {
         let tree = files.toTree(file => file.id, file => file.parentId);
-        document.body.appendChild(createTreeView(tree, file => file.name)).id = "myUL";
+        let element = document.getElementById("container-tree");
+        element.appendChild(createTreeView(tree, file => file.name)).id = "myUL";
         addNestedMechanism();
     });
 });
@@ -32,12 +33,12 @@ function createTreeView(tree, getName) {
         let itemDom = listDom.appendChild(document.createElement("li"));
         if (item.children && item.children.length) {
             let itemName = itemDom.appendChild(document.createElement("span"));
-            itemName.textContent = getName.call(item, item);
+            itemName.textContent = item.id + ". " + getName.call(item, item);
             itemName.className = "caret";
             let nestedList = itemDom.appendChild(createTreeView(item.children, getName));
             nestedList.className = "nested";
         } else {
-            itemDom.textContent = getName.call(item, item);
+            itemDom.textContent = item.id + ". " + getName.call(item, item);
         }
     });
     return listDom;
@@ -62,5 +63,5 @@ function addFile() {
 }
 
 function deleteFile() {
-    let name = prompt('Введите номер удаляемого файлы?', "");
+    let number = prompt('Введите номер удаляемого файла', "");
 }
