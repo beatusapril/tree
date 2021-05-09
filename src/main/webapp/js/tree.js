@@ -56,12 +56,50 @@ function addNestedMechanism() {
     }
 }
 
+async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            //'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 function addFile() {
     let name = prompt('Введите название файла', "");
-    let parId = prompt("Введите номер предыдущего элемента", '');
-    let recId = prompt("Введите номер записи ( уникальный )", '');
+    let parentId = prompt("Введите номер предыдущего элемента", '');
+    let recordId = prompt("Введите номер записи ( уникальный )", '');
+
+    const record = {
+        "name": name,
+        "parentId": parentId,
+        "recordId": recordId
+    }
+    postData('https://example.com/answer', record)
+        .then((data) => {
+            console.log(data); // JSON data parsed by `response.json()` call
+        });
 }
 
 function deleteFile() {
     let number = prompt('Введите номер удаляемого файла', "");
+
+    const deleteMethod = {
+        method: 'DELETE', // Method itself
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8' // Indicates the content
+        },
+        body: JSON.stringify({"recordId": number}) // We send data in JSON format
+    }
+
+    fetch(url, deleteMethod)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
 }

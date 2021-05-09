@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "fileServlet", value = "/files")
@@ -33,9 +32,9 @@ public class FileServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String prId = request.getParameter("parent_id");
+        String prId = request.getParameter("parentId");
         Integer parentId = (prId != null) ? Integer.parseInt(prId) : null;
-        String rcId = request.getParameter("record_id");
+        String rcId = request.getParameter("recordId");
         Integer recordId = (rcId != null) ? Integer.parseInt(rcId) : null;
         String name = request.getParameter("name");
         File file = new File();
@@ -46,10 +45,9 @@ public class FileServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) {
-        String rcId = request.getParameter("record_id");
+        String rcId = request.getParameter("recordId");
         Integer recordId = (rcId != null) ? Integer.parseInt(rcId) : null;
-            dataService.delete(recordId);
-
+        dataService.delete(recordId);
     }
 
     public void destroy() {
