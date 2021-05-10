@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "fileServlet", value = "/files")
 public class FileServlet extends HttpServlet {
@@ -44,10 +45,14 @@ public class FileServlet extends HttpServlet {
         dataService.create(file);
     }
 
-    public void doDelete(HttpServletRequest request, HttpServletResponse response) {
-        String rcId = request.getParameter("recordId");
-        Integer recordId = (rcId != null) ? Integer.parseInt(rcId) : null;
-        dataService.delete(recordId);
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String body = request.getReader()
+                .lines()
+                .collect(Collectors.joining());
+        File file = (File) JsonUtil.fromString(body, File.class);
+        if (file != null) {
+            dataService.delete(file.getId());
+        }
     }
 
     public void destroy() {

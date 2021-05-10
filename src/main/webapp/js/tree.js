@@ -81,25 +81,30 @@ function addFile() {
         "parentId": parentId,
         "recordId": recordId
     }
-    postData('https://example.com/answer', record)
+    postData(url, record)
         .then((data) => {
-            console.log(data); // JSON data parsed by `response.json()` call
+            console.log(data);
         });
 }
 
 function deleteFile() {
-    let number = prompt('Введите номер удаляемого файла', "");
+    let numberStr = prompt('Введите номер удаляемого файла', '');
+    let number = parseInt(numberStr);
+    console.log(number);
+    let record = {
+        id: number
+    };
 
-    const deleteMethod = {
-        method: 'DELETE', // Method itself
+    fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
-            'Content-type': 'application/json; charset=UTF-8' // Indicates the content
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"recordId": number}) // We send data in JSON format
-    }
-
-    fetch(url, deleteMethod)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(record)
+    }).then(response => console.log(response));
 }

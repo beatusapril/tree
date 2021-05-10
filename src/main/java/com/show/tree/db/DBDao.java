@@ -65,7 +65,7 @@ public class DBDao {
             String sql = "DELETE FROM files WHERE record_id = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, recordId);
-            statement.executeQuery(sql);
+            statement.executeQuery();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

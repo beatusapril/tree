@@ -16,4 +16,13 @@ public class JsonUtil {
             return null;
         }
     }
+
+    public static Object fromString(String str, Class<?> tClass) {
+        try {
+            return mapper.readValue(str, tClass);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
