@@ -32,17 +32,11 @@ public class FileServlet extends HttpServlet {
         out.flush();
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String prId = request.getParameter("parentId");
-        Integer parentId = (prId != null) ? Integer.parseInt(prId) : null;
-        String rcId = request.getParameter("recordId");
-        Integer recordId = (rcId != null) ? Integer.parseInt(rcId) : null;
-        String name = request.getParameter("name");
-        File file = new File();
-        file.setId(recordId);
-        file.setParentId(parentId);
-        file.setName(name);
-        dataService.create(file);
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        File file = (File) JsonUtil.fromString(request.getReader().lines().collect(Collectors.joining()), File.class);
+        if (file != null) {
+            dataService.create(file);
+        }
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {

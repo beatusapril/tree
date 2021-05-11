@@ -56,35 +56,31 @@ function addNestedMechanism() {
     }
 }
 
-async function postData(url = '', data = {}) {
-    const response = await fetch(url, {
+function addFile() {
+    let name = prompt('Введите название файла', '');
+    let parentStrId = prompt("Введите номер предыдущего элемента", 2);
+    let parentId = parseInt(parentStrId);
+    let recordStrId = prompt("Введите номер записи ( уникальный )", '');
+    let recordId = parseInt(recordStrId);
+
+    let record = {
+        "id": recordId,
+        "name": name,
+        "parentId": parentId
+    }
+
+    fetch(url, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
         headers: {
-            'Content-Type': 'application/json',
-            //'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
-    });
-    return await response.json();
-}
-
-function addFile() {
-    let name = prompt('Введите название файла', "");
-    let parentId = prompt("Введите номер предыдущего элемента", '');
-    let recordId = prompt("Введите номер записи ( уникальный )", '');
-
-    const record = {
-        "name": name,
-        "parentId": parentId,
-        "recordId": recordId
-    }
-    postData(url, record)
-        .then((data) => {
-            console.log(data);
-        });
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(record)
+    }).then(response => console.log(response));
 }
 
 function deleteFile() {

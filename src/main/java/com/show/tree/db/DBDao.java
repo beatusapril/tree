@@ -33,7 +33,7 @@ public class DBDao {
 
     public void create(File file) {
         try {
-            String sql = "INSERT INTO (record_id, parent_id, name) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO files (record_id, parent_id, name) VALUES (?, ?, ?)";
             PreparedStatement statement = getPreparedStatement(file, sql);
             statement.executeQuery();
         } catch (SQLException e) {
@@ -47,17 +47,6 @@ public class DBDao {
         statement.setInt(2, file.getParentId());
         statement.setString(3, file.getName());
         return statement;
-    }
-
-    public void update(File file) {
-        try {
-            String sql = "UPDATE files (record_id, parent_id, name) VALUES (?, ?, ?)";
-            PreparedStatement statement = getPreparedStatement(file, sql);
-            statement.executeQuery();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 
     public void delete(Integer recordId) {

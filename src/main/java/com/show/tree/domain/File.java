@@ -1,6 +1,7 @@
 package com.show.tree.domain;
 
 public class File {
+    // recordId in table
     private Integer id;
     private Integer parentId;
     private String name;
